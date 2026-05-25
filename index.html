@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureLogin AI | Advanced Biometric Keystroke Dynamics</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Premium Cybersecurity Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS File -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Interactive Matrix Background -->
+    <canvas id="matrix-canvas"></canvas>
+    
+    <!-- Outer Glow Effects -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <div class="app-container">
+        <!-- Main Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <i class="fa-solid fa-shield-halved cyber-shield"></i>
+                <h1>SECURE<span class="highlight">LOGIN</span> AI</h1>
+            </div>
+            <p class="subtitle"><i class="fa-solid fa-fingerprint"></i> Biometric Keystroke Dynamics Shield v4.9</p>
+        </header>
+
+        <!-- Main Dashboard Layout -->
+        <main class="grid-layout">
+            
+            <!-- Left Side: Login Form -->
+            <section class="card login-card glass">
+                <div class="card-header border-cyan">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                    <h2 class="terminal-title"><i class="fa-solid fa-terminal"></i> AUTHENTICATE_USER.EXE</h2>
+                </div>
+                
+                <div class="card-body">
+                    <p class="instructions-text">
+                        Type your credentials to log in. Our AI analyzes your precise keyboard rhythm (flight times, pauses, and dwell times) to block automated bot logins.
+                    </p>
+                    
+                    <form id="login-form" autocomplete="off" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="username">
+                                <i class="fa-solid fa-user-shield"></i> SECURE_ID (Username)
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="text" id="username" placeholder="Enter secure identity..." required autocomplete="off">
+                                <span class="input-scanner"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">
+                                <i class="fa-solid fa-key"></i> CIPHER_KEY (Password)
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="password" id="password" placeholder="Enter passcode..." required autocomplete="off">
+                                <span class="input-scanner"></span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button type="submit" id="btn-login" class="btn btn-primary btn-glow">
+                                <i class="fa-solid fa-unlock-keyhole"></i> SECURE LOGIN
+                            </button>
+                            
+                            <button type="button" id="btn-bot-sim" class="btn btn-secondary">
+                                <i class="fa-solid fa-robot"></i> SIMULATE BOT
+                            </button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </section>
+
+            <!-- Right Side: Biometric Analysis Dashboard -->
+            <section class="card analysis-card glass">
+                <div class="card-header border-purple">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                    <h2 class="terminal-title"><i class="fa-solid fa-chart-line"></i> COGNITIVE_ANALYSIS.SYS</h2>
+                </div>
+
+                <div class="card-body container-relative">
+                    
+                    <!-- Default State: Idle -->
+                    <div id="state-idle" class="dashboard-state active">
+                        <div class="idle-graphic">
+                            <i class="fa-solid fa-circle-nodes cyber-pulse"></i>
+                            <h3>Awaiting Authentication Scan</h3>
+                            <p>Type into the authentication terminal and click "SECURE LOGIN" or "SIMULATE BOT" to begin live biometric verification.</p>
+                        </div>
+                    </div>
+
+                    <!-- Scanning State -->
+                    <div id="state-scanning" class="dashboard-state">
+                        <div class="scanning-graphic">
+                            <div class="radar">
+                                <div class="radar-line"></div>
+                            </div>
+                            <h3>Biometric Timing Scan In Progress</h3>
+                            
+                            <!-- Console Logs Scrolling -->
+                            <div class="console-box">
+                                <p class="console-line text-cyan">> Initiating timing logger...</p>
+                                <p class="console-line text-purple">> Fetching millisecond precision arrays...</p>
+                                <p class="console-line text-yellow">> Calculating keyboard flight deviation...</p>
+                                <p class="console-line text-green">> Standardizing interval vectors...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diagnostics State (Visible after Analysis) -->
+                    <div id="state-results" class="dashboard-state">
+                        
+                        <!-- Header Result Banner -->
+                        <div id="result-banner" class="result-banner status-human">
+                            <div class="result-icon-wrapper">
+                                <i id="result-icon" class="fa-solid fa-user-check"></i>
+                            </div>
+                            <div class="result-details">
+                                <h3 id="result-verdict">HUMAN TYPING DETECTED</h3>
+                                <p id="result-desc">Keystroke pattern matches standard human variation.</p>
+                            </div>
+                        </div>
+
+                        <!-- Bot Score Progress Meter -->
+                        <div class="meter-section">
+                            <div class="meter-info">
+                                <span>Automation Score Probability</span>
+                                <span id="bot-percentage" class="text-neon-green">8%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div id="bot-progress-bar" class="progress-bar bg-green" style="width: 8%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Metrics Grid -->
+                        <div class="metrics-grid">
+                            <!-- Card 1: Speed -->
+                            <div class="metric-mini-card">
+                                <div class="metric-icon cyan-text">
+                                    <i class="fa-solid fa-gauge-high"></i>
+                                </div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Typing Speed</span>
+                                    <span id="stat-speed" class="metric-value">64 WPM</span>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Variation (Standard Dev) -->
+                            <div class="metric-mini-card">
+                                <div class="metric-icon purple-text">
+                                    <i class="fa-solid fa-wave-square"></i>
+                                </div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Rhythm Variation</span>
+                                    <span id="stat-variation" class="metric-value">84 ms</span>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Pauses -->
+                            <div class="metric-mini-card">
+                                <div class="metric-icon yellow-text">
+                                    <i class="fa-solid fa-hourglass-half"></i>
+                                </div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Natural Pauses</span>
+                                    <span id="stat-pauses" class="metric-value">2</span>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Backspaces -->
+                            <div class="metric-mini-card">
+                                <div class="metric-icon red-text">
+                                    <i class="fa-solid fa-delete-left"></i>
+                                </div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Corrections</span>
+                                    <span id="stat-backspaces" class="metric-value">1</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini timeline of timing analysis -->
+                        <div class="rhythm-analysis-panel">
+                            <h4><i class="fa-solid fa-microchip"></i> Rhythm Profile Signature</h4>
+                            <div class="timeline-visualization" id="timeline-visualization">
+                                <!-- Dynamically drawn from javascript -->
+                            </div>
+                            <div class="timeline-legend">
+                                <span><span class="legend-dot press"></span> Hold (Dwell)</span>
+                                <span><span class="legend-dot interval"></span> Flight (Interval)</span>
+                            </div>
+                        </div>
+
+                        <button id="btn-reset" class="btn btn-reset">
+                            <i class="fa-solid fa-rotate-left"></i> SCAN ANOTHER IDENTITY
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+        
+        <!-- Bottom Banner / Footer -->
+        <footer class="app-footer">
+            <p>Designed using Keystroke Biometrics. Press keys to monitor timing rhythms. Built on Python/Flask & JavaScript.</p>
+        </footer>
+    </div>
+
+    <!-- JS Script File -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
